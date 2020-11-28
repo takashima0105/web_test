@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>AVILEN コーディングテスト</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+<body>
+    <div class="wrapper">
+        <div class="buttons">
+            <button onclick="func()">パターンを送信</button>
+        </div>
+        <div class="result">
+            <p>出力結果:<span id="result-text"></span></p>
+        </div>
+    </div>
+</body>
+
+<script lang="javascript">
+    const xhr = new XMLHttpRequest();
+    const backendUrl = "/api";
+    const pattern = {
+        "obj":
+            [
+                { "num": 4, "text": "fizz" },
+                { "num": 7, "text": "buzz" },
+                { "num": 8, "text": "hoge" },
+                { "num": 15, "text": "huga" }
+            ]
+    }
+    
+    const resultTextbox = document.getElementById("result-text");
+    function func() {
+        xhr.open('POST', backendUrl);
+        xhr.send(JSON.stringify(pattern));
+        xhr.onreadystatechange = function () {
+            const res = JSON.parse(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                resultTextbox.innerHTML = res.data;
+            }
+        }
+    };
+
+</script>
+
+</html>
